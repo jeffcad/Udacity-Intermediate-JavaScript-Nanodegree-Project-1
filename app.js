@@ -122,6 +122,7 @@ const dinoArray = []
 for (const dino of dinos) {
     dinoArray.push(new Dino(dino))
 }
+dinoArray.splice(4, 0, "human placeholder")
 
 // console.log(dinoArray[1].compareWeight(155))
 // console.log(dinoArray[1].compareHeight(66))
@@ -131,17 +132,61 @@ for (const dino of dinos) {
 // console.log(dinoArray[1].compareDiet('omnivore'))
 // console.log(dinoArray[1].compareDiet('carnivore'))
 
-function createGridElement(objectData) {
+// Can I use closure here to make a counter that adds the human at middle square
+// then uses the for..of structure in updateUI?
+// that would also eliminate createHumanElement function
+function createDinoElement(dinoData, humanData) {
+    let fact
+    let randomNumber
+    if (dinoData.species === "Pigeon") {
+        randomNumber = 2
+    } else {
+        randomNumber = Math.round(Math.random() * 5)
+    }
+    switch (randomNumber) {
+        case 0:
+            fact = `The ${dinoData.species} lived in ${dinoData.where}.`
+            break
+        case 1:
+            fact = `The ${dinoData.species} lived in the ${dinoData.when} period.`
+            break
+        case 2:
+            fact = dinoData.fact
+            break
+        case 3:
+            fact = dinoData.compareWeight(humanData.weight)
+            break
+        case 4:
+            fact = dinoData.compareHeight(humanData.height)
+            break
+        case 5:
+            fact = dinoData.compareDiet(humanData.diet)
+            break
+        default:
+            fact = "Dinosaurs are cool!"
+    }
     const newDiv = document.createElement("div")
     newDiv.className = "grid-item"
-    newDiv.innerHTML = `<h3>${objectData.species}</h3><img src="images/${objectData.species}.png" alt="image of ${objectData.species}">`
+    newDiv.innerHTML = `<h3>${dinoData.species}</h3><img src="images/${dinoData.species}.png" alt="image of ${dinoData.species}"><p>${fact}</p>`
     return newDiv
 }
 
-function updateUI(dinoArray) {
+function createHumanElement(humanData) {
+    const newDiv = document.createElement("div")
+    newDiv.className = "grid-item"
+    newDiv.innerHTML = `<h3>${humanData.name}</h3><img src="images/human.png" alt="image of human">`
+    return newDiv
+}
+
+function updateUI(dinoArray, humanData) {
     const fragment = document.createDocumentFragment()
-    for (const dino of dinoArray) {
-        const gridSquare = createGridElement(dino)
+    for (let i = 0; i < 9; i++) {
+        let gridSquare
+        if (i === 4) {
+            gridSquare = createHumanElement(humanData)
+        } else {
+            gridSquare = createDinoElement(dinoArray[i], humanData)
+        }
         fragment.appendChild(gridSquare)
     }
     document.getElementById("grid").appendChild(fragment)
@@ -156,11 +201,10 @@ function clicked(e) {
     humanData.height = (document.getElementById("feet").value * 12) + Number(document.getElementById("inches").value)
     humanData.weight = document.getElementById("weight").value
     humanData.diet = document.getElementById("diet").value
-    console.log(humanData)
 
     document.querySelector("form").style.display = "none"
 
-    updateUI(dinoArray)
+    updateUI(dinoArray, humanData)
 }
 
 (function listener() {

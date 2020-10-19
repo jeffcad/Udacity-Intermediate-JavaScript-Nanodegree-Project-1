@@ -172,3 +172,8 @@ select {
     display: block;
     font-size: 0.7em;
 }
+
+.signoff-text {
+    font-family: 'Frijole', cursive;
+    font-size: 2.0em;
+}

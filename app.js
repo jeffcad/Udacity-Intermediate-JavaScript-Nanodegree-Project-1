@@ -73,22 +73,22 @@ function rawDinoData() {
             "when": "Holocene",
             "fact": "All birds are living dinosaurs."
         }
-    ]
+    ];
 
-    return dinos
+    return dinos;
 }
 
 ////////////////////////////////  START CODE  //////////////////////////////////
 
 // Create Dino Constructor
 function Dino(dinoData) {
-    this.species = dinoData.species
-    this.weight = dinoData.weight
-    this.height = dinoData.height
-    this.diet = dinoData.diet
-    this.where = dinoData.where
-    this.when = dinoData.when
-    this.fact = dinoData.fact
+    this.species = dinoData.species;
+    this.weight = dinoData.weight;
+    this.height = dinoData.height;
+    this.diet = dinoData.diet;
+    this.where = dinoData.where;
+    this.when = dinoData.when;
+    this.fact = dinoData.fact;
 }
 
 (function prototype() {
@@ -97,123 +97,123 @@ function Dino(dinoData) {
     const protoDino = {
         compareWeight: function (humanWeight) {
             if (humanWeight <= this.weight) {
-                return `${this.species} weighed ${(this.weight / humanWeight).toFixed(1)} times more than you!`
+                return `${this.species} weighed ${(this.weight / humanWeight).toFixed(1)} times more than you!`;
             } else {
-                return `You weigh ${(humanWeight / this.weight).toFixed(1)} times more than ${this.species} weighed!`
+                return `You weigh ${(humanWeight / this.weight).toFixed(1)} times more than ${this.species} weighed!`;
             }
         },
         compareHeight: function (humanHeight) {
             if (humanHeight <= this.height) {
-                return `${this.species} was ${(this.height / humanHeight).toFixed(1)} times taller than you!`
+                return `${this.species} was ${(this.height / humanHeight).toFixed(1)} times taller than you!`;
             } else {
-                return `You are ${(humanHeight / this.height).toFixed(1)} times taller than ${this.species} was!`
+                return `You are ${(humanHeight / this.height).toFixed(1)} times taller than ${this.species} was!`;
             }
         },
         compareDiet: function (humanDiet) {
-            let article = "a"
+            let article = "a";
             if (humanDiet === "omnivore") {
-                article = "an"
+                article = "an";
             }
             if (humanDiet === this.diet) {
-                return `You are ${article} ${humanDiet} and ${this.species} was too!`
+                return `You are ${article} ${humanDiet} and ${this.species} was too!`;
             } else {
-                return `You are ${article} ${humanDiet}, but ${this.species} was a ${this.diet}.`
+                return `You are ${article} ${humanDiet}, but ${this.species} was a ${this.diet}.`;
             }
         }
     }
 
-    Dino.prototype = protoDino
+    Dino.prototype = protoDino;
 })()
 
 function createDinoArray() {
-    const dinos = rawDinoData()
-    const dinoArray = []
+    const dinos = rawDinoData();
+    const dinoArray = [];
 
     for (const dino of dinos) {
-        dinoArray.push(new Dino(dino))
+        dinoArray.push(new Dino(dino));
     }
-    dinoArray.splice(4, 0, "human placeholder")
+    dinoArray.splice(4, 0, "human placeholder");
 
-    return dinoArray
+    return dinoArray;
 }
 
 // Can I use closure here to make a counter that adds the human at middle square
 // then uses the for..of structure in updateUI?
 // that would also eliminate createHumanElement function
 function createDinoElement(dinoData, humanData) {
-    let fact
-    let randomNumber
+    let fact;
+    let randomNumber;
     if (dinoData.species === "Pigeon") {
-        randomNumber = 2
+        randomNumber = 2;
     } else {
-        randomNumber = Math.round(Math.random() * 5)
+        randomNumber = Math.round(Math.random() * 5);
     }
     switch (randomNumber) {
         case 0:
-            fact = `The ${dinoData.species} lived in ${dinoData.where}.`
-            break
+            fact = `The ${dinoData.species} lived in ${dinoData.where}.`;
+            break;
         case 1:
-            fact = `The ${dinoData.species} lived in the ${dinoData.when} period.`
-            break
+            fact = `The ${dinoData.species} lived in the ${dinoData.when} period.`;
+            break;
         case 2:
-            fact = dinoData.fact
-            break
+            fact = dinoData.fact;
+            break;
         case 3:
-            fact = dinoData.compareWeight(humanData.weight)
-            break
+            fact = dinoData.compareWeight(humanData.weight);
+            break;
         case 4:
-            fact = dinoData.compareHeight(humanData.height)
-            break
+            fact = dinoData.compareHeight(humanData.height);
+            break;
         case 5:
-            fact = dinoData.compareDiet(humanData.diet)
-            break
+            fact = dinoData.compareDiet(humanData.diet);
+            break;
         default:
-            fact = "Dinosaurs are cool!"
+            fact = "Dinosaurs are cool!";
     }
-    const newDiv = document.createElement("div")
-    newDiv.className = "grid-item"
-    newDiv.innerHTML = `<h3>${dinoData.species}</h3><img src="images/${dinoData.species}.png" alt="image of ${dinoData.species}"><p>${fact}</p>`
-    return newDiv
+    const newDiv = document.createElement("div");
+    newDiv.className = "grid-item";
+    newDiv.innerHTML = `<h3>${dinoData.species}</h3><img src="images/${dinoData.species}.png" alt="image of ${dinoData.species}"><p>${fact}</p>`;
+    return newDiv;
 }
 
 function createHumanElement(humanData) {
-    const newDiv = document.createElement("div")
-    newDiv.className = "grid-item"
-    newDiv.innerHTML = `<h3>${humanData.name}</h3><img src="images/human.png" alt="image of human">`
-    return newDiv
+    const newDiv = document.createElement("div");
+    newDiv.className = "grid-item";
+    newDiv.innerHTML = `<h3>${humanData.name}</h3><img src="images/human.png" alt="image of human">`;
+    return newDiv;
 }
 
 function updateUI(dinoArray, humanData) {
-    const fragment = document.createDocumentFragment()
+    const fragment = document.createDocumentFragment();
     for (let i = 0; i < 9; i++) {
-        let gridSquare
+        let gridSquare;
         if (i === 4) {
-            gridSquare = createHumanElement(humanData)
+            gridSquare = createHumanElement(humanData);
         } else {
-            gridSquare = createDinoElement(dinoArray[i], humanData)
+            gridSquare = createDinoElement(dinoArray[i], humanData);
         }
-        fragment.appendChild(gridSquare)
+        fragment.appendChild(gridSquare);
     }
-    document.getElementById("grid").appendChild(fragment)
+    document.getElementById("grid").appendChild(fragment);
 }
 
 function clicked(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const dinoArray = createDinoArray()
+    const dinoArray = createDinoArray();
 
     const humanData = {
         name: document.getElementById("name").value,
         height: (document.getElementById("feet").value * 12) + Number(document.getElementById("inches").value),
         weight: document.getElementById("weight").value,
         diet: document.getElementById("diet").value
-    }
+    };
 
-    document.querySelector("form").style.display = "none"
+    document.querySelector("form").style.display = "none";
 
-    updateUI(dinoArray, humanData)
+    updateUI(dinoArray, humanData);
 }
 
 (function listener() {
-    document.getElementById("btn").addEventListener("click", clicked)
+    document.getElementById("btn").addEventListener("click", clicked);
 })()

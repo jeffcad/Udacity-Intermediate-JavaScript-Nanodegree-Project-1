@@ -131,20 +131,38 @@ for (const dino of dinos) {
 // console.log(dinoArray[1].compareDiet('omnivore'))
 // console.log(dinoArray[1].compareDiet('carnivore'))
 
+function createGridElement(objectData) {
+    const newDiv = document.createElement("div")
+    newDiv.className = "grid-item"
+    newDiv.innerHTML = `<h3>${objectData.species}</h3><img src="images/${objectData.species}.png" alt="image of ${objectData.species}">`
+    return newDiv
+}
+
+function updateUI(dinoArray) {
+    const fragment = document.createDocumentFragment()
+    for (const dino of dinoArray) {
+        const gridSquare = createGridElement(dino)
+        fragment.appendChild(gridSquare)
+    }
+    document.getElementById("grid").appendChild(fragment)
+}
+
 const humanData = {}
 
 function clicked(e) {
     e.preventDefault()
 
-    humanData.name = document.getElementById('name').value
-    humanData.height = (document.getElementById('feet').value * 12) + Number(document.getElementById('inches').value)
-    humanData.weight = document.getElementById('weight').value
-    humanData.diet = document.getElementById('diet').value
+    humanData.name = document.getElementById("name").value
+    humanData.height = (document.getElementById("feet").value * 12) + Number(document.getElementById("inches").value)
+    humanData.weight = document.getElementById("weight").value
+    humanData.diet = document.getElementById("diet").value
     console.log(humanData)
 
-    document.querySelector('form').style.display = "none"
+    document.querySelector("form").style.display = "none"
+
+    updateUI(dinoArray)
 }
 
 (function listener() {
-    document.getElementById('btn').addEventListener('click', clicked)
+    document.getElementById("btn").addEventListener("click", clicked)
 })()

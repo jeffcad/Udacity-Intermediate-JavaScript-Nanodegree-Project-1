@@ -133,15 +133,18 @@ for (const dino of dinos) {
 
 const humanData = {}
 
-function getHumanData(e) {
+function clicked(e) {
     e.preventDefault()
+
     humanData.name = document.getElementById('name').value
     humanData.height = (document.getElementById('feet').value * 12) + Number(document.getElementById('inches').value)
     humanData.weight = document.getElementById('weight').value
     humanData.diet = document.getElementById('diet').value
     console.log(humanData)
+
+    document.querySelector('form').style.display = "none"
 }
 
 (function listener() {
-    document.getElementById('btn').addEventListener('click', getHumanData)
+    document.getElementById('btn').addEventListener('click', clicked)
 })()

@@ -81,7 +81,7 @@ function rawDinoData() {
 ////////////////////////////////  START CODE  //////////////////////////////////
 
 // Create Dino Constructor
-function Dino(dinoData) {
+function DinoConstructor(dinoData) {
     this.species = dinoData.species;
     this.weight = dinoData.weight;
     this.height = dinoData.height;
@@ -120,7 +120,7 @@ function Dino(dinoData) {
         }
     };
 
-    Dino.prototype = protoDino;
+    DinoConstructor.prototype = protoDino;
 })();
 
 function createDinoArray() {
@@ -128,7 +128,7 @@ function createDinoArray() {
     const dinoArray = [];
 
     dinos.forEach(function (dino) {
-        dinoArray.push(new Dino(dino));
+        dinoArray.push(new DinoConstructor(dino));
     });
 
     dinoArray.splice(4, 0, 'human placeholder');

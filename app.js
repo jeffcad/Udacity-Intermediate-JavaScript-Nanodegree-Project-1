@@ -120,10 +120,10 @@ function Dino(dinoData) {
                 return `You are ${article} ${humanDiet}, but ${this.species} was a ${this.diet}.`;
             }
         }
-    }
+    };
 
     Dino.prototype = protoDino;
-})()
+})();
 
 function createDinoArray() {
     const dinos = rawDinoData();
@@ -216,4 +216,4 @@ function clicked(e) {
 
 (function listener() {
     document.getElementById("btn").addEventListener("click", clicked);
-})()
+})();

@@ -123,17 +123,18 @@ for (const dino of dinos) {
     dinoArray.push(new Dino(dino))
 }
 
-console.log(dinoArray[1].compareWeight(155))
-console.log(dinoArray[1].compareHeight(66))
-console.log(dinoArray[1].compareWeight(14000))
-console.log(dinoArray[1].compareHeight(660))
-console.log(dinoArray[1].compareDiet('herbivore'))
-console.log(dinoArray[1].compareDiet('omnivore'))
-console.log(dinoArray[1].compareDiet('carnivore'))
+// console.log(dinoArray[1].compareWeight(155))
+// console.log(dinoArray[1].compareHeight(66))
+// console.log(dinoArray[1].compareWeight(14000))
+// console.log(dinoArray[1].compareHeight(660))
+// console.log(dinoArray[1].compareDiet('herbivore'))
+// console.log(dinoArray[1].compareDiet('omnivore'))
+// console.log(dinoArray[1].compareDiet('carnivore'))
 
 const humanData = {}
 
-function getHumanData() {
+function getHumanData(e) {
+    e.preventDefault()
     humanData.name = document.getElementById('name').value
     humanData.height = (document.getElementById('feet').value * 12) + Number(document.getElementById('inches').value)
     humanData.weight = document.getElementById('weight').value

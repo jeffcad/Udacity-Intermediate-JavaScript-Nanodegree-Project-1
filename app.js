@@ -178,6 +178,13 @@ function createHumanElement(humanData) {
     return newDiv;
 }
 
+function repeat() {
+    document.getElementById('error').innerHTML = '';
+    document.getElementById('grid').innerHTML = '';
+    document.getElementById('repeat-btn').style.display = 'none';
+    document.querySelector('form').style.display = 'block';
+}
+
 function updateUI(dinoArray, humanData) {
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < 9; i++) {
@@ -186,6 +193,7 @@ function updateUI(dinoArray, humanData) {
         fragment.appendChild(gridSquare);
     }
     document.getElementById('grid').appendChild(fragment);
+    document.getElementById('repeat-btn').style.display = 'block';
 }
 
 function clicked(e) {
@@ -219,4 +227,5 @@ function clicked(e) {
 
 (function () {
     document.getElementById('btn').addEventListener('click', clicked);
+    document.getElementById('repeat-btn').addEventListener('click', repeat);
 })();

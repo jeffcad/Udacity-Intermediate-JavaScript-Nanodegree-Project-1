@@ -153,7 +153,8 @@ select {
     display: block;
 }
 
-#btn {
+#btn,
+.repeat-btn {
     display: inline-block;
     background: #ccc;
     padding: 0.8em;
@@ -161,10 +162,15 @@ select {
     transition: ease 0.3s all;
 }
 
-#btn:hover {
+#btn:hover,
+.repeat-btn:hover {
     background: #777;
     color: #fff;
     cursor: pointer;
+}
+
+.repeat-btn {
+    display: none;
 }
 
 .error {

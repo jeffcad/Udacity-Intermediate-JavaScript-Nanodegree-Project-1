@@ -1,4 +1,3 @@
-// Make closure here to protect the raw data?
 function rawDinoData() {
     const dinos = [
         {
@@ -78,9 +77,6 @@ function rawDinoData() {
     return dinos;
 }
 
-////////////////////////////////  START CODE  //////////////////////////////////
-
-// Create Dino Constructor
 function DinoConstructor(dinoData, units) {
     this.species = dinoData.species;
     this.diet = dinoData.diet;
@@ -121,7 +117,6 @@ function DinoConstructor(dinoData, units) {
         },
         compareDiet: function (humanDiet) {
             let article = humanDiet === 'omnivore' ? 'an' : 'a';
-
             if (humanDiet === this.diet) {
                 return `You are ${article} ${humanDiet} and ${this.species} was too!`;
             } else {
@@ -146,9 +141,6 @@ function createDinoArray(units) {
     return dinoArray;
 }
 
-// Can I use closure here to make a counter that adds the human at middle square
-// then uses the for..of structure in updateUI?
-// that would also eliminate createHumanElement function
 function createDinoElement(dinoData, humanData) {
     let fact;
     let randomNumber = dinoData.species === 'Pigeon' ? 2 : Math.round(Math.random() * 5);
@@ -175,16 +167,43 @@ function createDinoElement(dinoData, humanData) {
         default:
             fact = 'Dinosaurs are cool!';
     }
+
     const newDiv = document.createElement('div');
     newDiv.className = 'grid-item';
     newDiv.innerHTML = `<h3>${dinoData.species}</h3><img src="images/${dinoData.species}.png" alt="image of ${dinoData.species}"><p>${fact}</p>`;
+
     return newDiv;
+}
+
+function getHumanData() {
+    let height, weight, units;
+
+    if (document.getElementById('metric').checked) {
+        height = document.getElementById('height-metric').value;
+        weight = document.getElementById('weight-metric').value;
+        units = 'metric';
+    } else {
+        height = (document.getElementById('feet').value * 12) + Number(document.getElementById('inches').value);
+        weight = document.getElementById('weight-imperial').value;
+        units = 'imperial';
+    }
+
+    const humanData = {
+        name: document.getElementById('name').value,
+        height: height,
+        weight: weight,
+        diet: document.getElementById('diet').value,
+        units: units
+    };
+
+    return humanData;
 }
 
 function createHumanElement(humanData) {
     const newDiv = document.createElement('div');
     newDiv.className = 'grid-item';
     newDiv.innerHTML = `<h3>${humanData.name}</h3><img src="images/human.png" alt="image of human">`;
+
     return newDiv;
 }
 
@@ -196,6 +215,8 @@ function repeat() {
 }
 
 function updateUI(dinoArray, humanData) {
+    document.querySelector('form').style.display = 'none';
+
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < 9; i++) {
         let gridSquare = i === 4 ? createHumanElement(humanData) : createDinoElement(dinoArray[i], humanData);
@@ -209,25 +230,7 @@ function updateUI(dinoArray, humanData) {
 function clicked(e) {
     e.preventDefault();
 
-    let height, weight, units;
-    if (document.getElementById('metric').checked) {
-        height = document.getElementById('height-metric').value;
-        weight = document.getElementById('weight-metric').value;
-        units = 'metric';
-    } else {
-        height = (document.getElementById('feet').value * 12) + Number(document.getElementById('inches').value);
-        weight = document.getElementById('weight-imperial').value;
-        units = 'imperial';
-    }
-
-    const dinoArray = createDinoArray(units);
-
-    const humanData = {
-        name: document.getElementById('name').value,
-        height: height,
-        weight: weight,
-        diet: document.getElementById('diet').value
-    };
+    const humanData = getHumanData();
 
     const errorMessage = document.getElementById('error');
     if (humanData.name === "") {
@@ -241,7 +244,7 @@ function clicked(e) {
         return;
     }
 
-    document.querySelector('form').style.display = 'none';
+    const dinoArray = createDinoArray(humanData.units);
 
     updateUI(dinoArray, humanData);
 }

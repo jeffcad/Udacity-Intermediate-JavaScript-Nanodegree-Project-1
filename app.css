@@ -170,6 +170,10 @@ select {
     transition: ease 0.3s all;
 }
 
+.repeat-btn {
+    margin-bottom: 50px;
+}
+
 #btn:hover,
 .repeat-btn:hover {
     background: #777;

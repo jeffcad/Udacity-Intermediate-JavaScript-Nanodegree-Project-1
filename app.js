@@ -98,21 +98,25 @@ function DinoConstructor(dinoData, units) {
 }
 
 (function prototype() {
-    // need to handle exact weight/height matches, maybe if ratio would be 1.0
-    // after rounding
     const protoDino = {
         compareWeight: function (humanWeight) {
-            if (humanWeight <= this.weight) {
+            const weightRatio = (this.weight / humanWeight).toFixed(1);
+            if (weightRatio > 1) {
                 return `${this.species} weighed ${(this.weight / humanWeight).toFixed(1)} times more than you!`;
+            } else if (weightRatio < 1) {
+                return `You weigh ${(humanWeight / this.weight).toFixed(1)} times more than ${this.species}!`;
             } else {
-                return `You weigh ${(humanWeight / this.weight).toFixed(1)} times more than ${this.species} weighed!`;
+                return `You weigh the same as ${this.species}!`;
             }
         },
         compareHeight: function (humanHeight) {
-            if (humanHeight <= this.height) {
+            const heightRatio = (this.height / humanHeight).toFixed(1);
+            if (heightRatio > 1) {
                 return `${this.species} was ${(this.height / humanHeight).toFixed(1)} times taller than you!`;
+            } else if (heightRatio < 1) {
+                return `You are ${(humanHeight / this.height).toFixed(1)} times taller than ${this.species}!`;
             } else {
-                return `You are ${(humanHeight / this.height).toFixed(1)} times taller than ${this.species} was!`;
+                return `You are the same height as ${this.species}!`;
             }
         },
         compareDiet: function (humanDiet) {
@@ -139,7 +143,6 @@ function createDinoArray(units) {
 
     dinoArray.splice(4, 0, 'human placeholder');
 
-    console.log(dinoArray);
     return dinoArray;
 }
 
@@ -225,7 +228,6 @@ function clicked(e) {
         weight: weight,
         diet: document.getElementById('diet').value
     };
-    console.log(humanData);
 
     const errorMessage = document.getElementById('error');
     if (humanData.name === "") {

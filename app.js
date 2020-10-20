@@ -1,3 +1,7 @@
+/**
+ * @description The raw dinosaur data, put in function to avoid global variable
+ * @returns An array of dinosaur objects (plus a pigeon)
+ */
 function rawDinoData() {
     const dinos = [
         {
@@ -77,6 +81,12 @@ function rawDinoData() {
     return dinos;
 }
 
+/**
+ * @description Represents a dinosaur object
+ * @constructor
+ * @param {Object} dinoData A single dinosaur object containing facts 
+ * @param {string} units 'metric' or 'imperial' for height and weight 
+ */
 function DinoConstructor(dinoData, units) {
     this.species = dinoData.species;
     this.diet = dinoData.diet;
@@ -84,6 +94,7 @@ function DinoConstructor(dinoData, units) {
     this.when = dinoData.when;
     this.fact = dinoData.fact;
 
+    // In raw dino data, heights are in inches and weights in pounds
     if (units === 'metric') {
         this.weight = Math.round(dinoData.weight / 2.21);
         this.height = Math.round(dinoData.height * 2.54);
@@ -93,10 +104,14 @@ function DinoConstructor(dinoData, units) {
     }
 }
 
+/**
+ * @description IIFE to store the prototype dinosaur with methods, assign the prototype to the constructor
+ */
 (function prototype() {
     const protoDino = {
         compareWeight: function (humanWeight) {
             const weightRatio = (this.weight / humanWeight).toFixed(1);
+            // Check for human less than, greater than, or same weight as dino
             if (weightRatio > 1) {
                 return `${this.species} weighed ${(this.weight / humanWeight).toFixed(1)} times more than you!`;
             } else if (weightRatio < 1) {
@@ -107,6 +122,7 @@ function DinoConstructor(dinoData, units) {
         },
         compareHeight: function (humanHeight) {
             const heightRatio = (this.height / humanHeight).toFixed(1);
+            // Check for human less than, greater than, or same weight as dino
             if (heightRatio > 1) {
                 return `${this.species} was ${(this.height / humanHeight).toFixed(1)} times taller than you!`;
             } else if (heightRatio < 1) {
@@ -116,7 +132,9 @@ function DinoConstructor(dinoData, units) {
             }
         },
         compareDiet: function (humanDiet) {
+            //'An' omnivore or 'a' herbivore/carnivore
             let article = humanDiet === 'omnivore' ? 'an' : 'a';
+
             if (humanDiet === this.diet) {
                 return `You are ${article} ${humanDiet} and ${this.species} was too!`;
             } else {
@@ -125,9 +143,16 @@ function DinoConstructor(dinoData, units) {
         }
     };
 
+    // Assign the methods in the protoDino to all objects created 
+    // with DinoConstructor
     DinoConstructor.prototype = protoDino;
 })();
 
+/**
+ * @description Creates the dinosaur object array by calling constructor, inserts a human placeholder for proper iteration later
+ * @param {string} units 'metric' or 'imperial' for height and weight
+ * @returns {Array} Array of dinosaur objects from constructor
+ */
 function createDinoArray(units) {
     const dinos = rawDinoData();
     const dinoArray = [];
@@ -136,13 +161,24 @@ function createDinoArray(units) {
         dinoArray.push(new DinoConstructor(dino, units));
     });
 
+    // Insert the human placeholder here so that iteration works properly
+    // in the grid element construction.  Human should be in the centre square.
     dinoArray.splice(4, 0, 'human placeholder');
 
     return dinoArray;
 }
 
+/**
+ * @description Creates a grid element for a dinosaur object
+ * @param {Object} dinoData An object representing a single dinosaur
+ * @param {Object} humanData Data grabbed from the user's input form
+ * @returns {Element} An element to be added to the grid in the UI
+ */
 function createDinoElement(dinoData, humanData) {
     let fact;
+    // Project requirement is that pigeon should always return the same fact,
+    // so we rig the random number for pigeon
+    // Dinosaurs each return one of 6 facts randomly chosen here
     let randomNumber = dinoData.species === 'Pigeon' ? 2 : Math.round(Math.random() * 5);
 
     switch (randomNumber) {
@@ -168,6 +204,7 @@ function createDinoElement(dinoData, humanData) {
             fact = 'Dinosaurs are cool!';
     }
 
+    // Create the new grid item with title, image, and chosen fact
     const newDiv = document.createElement('div');
     newDiv.className = 'grid-item';
     newDiv.innerHTML = `<h3>${dinoData.species}</h3><img src="images/${(dinoData.species.toLowerCase())}.png" alt="image of ${dinoData.species}"><p>${fact}</p>`;
@@ -175,6 +212,10 @@ function createDinoElement(dinoData, humanData) {
     return newDiv;
 }
 
+/**
+ * @description Get the user's data from the contact form
+ * @returns An object containing the user's data
+ */
 function getHumanData() {
     let height, weight, units;
 
@@ -199,7 +240,13 @@ function getHumanData() {
     return humanData;
 }
 
+/**
+ * @description Creates a grid element for the human object
+ * @param {Object} humanData Data grabbed from the user's input form
+ * @returns {Element} An element to be added to the grid in the UI
+ */
 function createHumanElement(humanData) {
+    // Create the human element for the grid, with user's name and an image
     const newDiv = document.createElement('div');
     newDiv.className = 'grid-item';
     newDiv.innerHTML = `<h3>${humanData.name}</h3><img src="images/human.png" alt="image of human">`;
@@ -207,6 +254,9 @@ function createHumanElement(humanData) {
     return newDiv;
 }
 
+/**
+ * @description Resets the UI elements if the user wants to try again
+ */
 function repeat() {
     document.getElementById('error').innerHTML = '';
     document.getElementById('grid').innerHTML = '';
@@ -214,20 +264,36 @@ function repeat() {
     document.querySelector('form').style.display = 'block';
 }
 
+/**
+ * @description Creates the grid for the UI result
+ * @param {Array} dinoArray Array of dinosaur objects 
+ * @param {Object} humanData The user's data object
+ */
 function updateUI(dinoArray, humanData) {
     document.querySelector('form').style.display = 'none';
 
+    // Create fragment to attach div elements to
     const fragment = document.createDocumentFragment();
+
+    // Call to create the dino and human div elements
     for (let i = 0; i < 9; i++) {
+        // Center space (5th element, index 4) is always the human
         let gridSquare = i === 4 ? createHumanElement(humanData) : createDinoElement(dinoArray[i], humanData);
 
         fragment.appendChild(gridSquare);
     }
+    // Attach fragment with grid elements to the DOM
     document.getElementById('grid').appendChild(fragment);
+    // Show the 'Go Again' button
     document.getElementById('repeat-btn').style.display = 'block';
 }
 
+/**
+ * @description Called when the user clicks the submit button, main function of the program which calls the other parts of the sequence
+ * @param {event} e The click event on the form's submit button
+ */
 function clicked(e) {
+    // Prevent default page reloading on submit
     e.preventDefault();
 
     const humanData = getHumanData();
@@ -249,6 +315,9 @@ function clicked(e) {
     updateUI(dinoArray, humanData);
 }
 
+/**
+ * @description Called when the user changes units in the form, sets or hides the metric and imperial height and weight input elements
+ */
 function unitsChange() {
     if (document.getElementById('metric').checked) {
         document.getElementById('metric-form').style.display = 'block';
@@ -260,6 +329,9 @@ function unitsChange() {
 
 }
 
+/**
+ * @description IIFE to attach the event listeners on the buttons
+ */
 (function () {
     document.getElementById('btn').addEventListener('click', clicked);
     document.getElementById('repeat-btn').addEventListener('click', repeat);

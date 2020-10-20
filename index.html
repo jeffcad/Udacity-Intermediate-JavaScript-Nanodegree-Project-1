@@ -26,6 +26,7 @@
         <div class="form-container">
             <label for="name">Name:</label>
             <input id="name" class="form-field__full" type="name" name="name">
+            <!-- Select metric or imperial units -->
             <fieldset>
                 <legend>
                     <p>Units</p>
@@ -35,6 +36,7 @@
                 <label for="imperial">Imperial:</label>
                 <input type="radio" id="imperial" name="units" value="imperial" onclick="unitsChange()">
             </fieldset>
+            <!-- Metric form elements, can be shown or hidden -->
             <div id="metric-form" class="metric-form">
                 <label for="height-metric">
                     <p>Height (cm)</p>
@@ -45,6 +47,7 @@
                 </label>
                 <input id="weight-metric" class="form-field__full" type="number">
             </div>
+            <!-- Imperial form elements, can be shown or hidden -->
             <div id="imperial-form" class="imperial-form">
                 <fieldset>
                     <legend>
@@ -70,6 +73,7 @@
             </select>
             <input id="btn" type="submit" value="Compare Me!">
         </div>
+        <!-- Holds an error message for form validation -->
         <div id="error" class="error"></div>
     </form>
     <!-- .grid to attach tiles to -->

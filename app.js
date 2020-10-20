@@ -81,14 +81,20 @@ function rawDinoData() {
 ////////////////////////////////  START CODE  //////////////////////////////////
 
 // Create Dino Constructor
-function DinoConstructor(dinoData) {
+function DinoConstructor(dinoData, units) {
     this.species = dinoData.species;
-    this.weight = dinoData.weight;
-    this.height = dinoData.height;
     this.diet = dinoData.diet;
     this.where = dinoData.where;
     this.when = dinoData.when;
     this.fact = dinoData.fact;
+
+    if (units === 'metric') {
+        this.weight = Math.round(dinoData.weight / 2.21);
+        this.height = Math.round(dinoData.height * 2.54);
+    } else {
+        this.weight = dinoData.weight;
+        this.height = dinoData.height;
+    }
 }
 
 (function prototype() {
@@ -123,16 +129,17 @@ function DinoConstructor(dinoData) {
     DinoConstructor.prototype = protoDino;
 })();
 
-function createDinoArray() {
+function createDinoArray(units) {
     const dinos = rawDinoData();
     const dinoArray = [];
 
     dinos.forEach(function (dino) {
-        dinoArray.push(new DinoConstructor(dino));
+        dinoArray.push(new DinoConstructor(dino, units));
     });
 
     dinoArray.splice(4, 0, 'human placeholder');
 
+    console.log(dinoArray);
     return dinoArray;
 }
 
@@ -199,16 +206,28 @@ function updateUI(dinoArray, humanData) {
 function clicked(e) {
     e.preventDefault();
 
-    const dinoArray = createDinoArray();
+    let height, weight, units;
+    if (document.getElementById('metric').checked) {
+        height = document.getElementById('height-metric').value;
+        weight = document.getElementById('weight-metric').value;
+        units = 'metric';
+    } else {
+        height = (document.getElementById('feet').value * 12) + Number(document.getElementById('inches').value);
+        weight = document.getElementById('weight-imperial').value;
+        units = 'imperial';
+    }
+
+    const dinoArray = createDinoArray(units);
 
     const humanData = {
         name: document.getElementById('name').value,
-        height: (document.getElementById('feet').value * 12) + Number(document.getElementById('inches').value),
-        weight: document.getElementById('weight').value,
+        height: height,
+        weight: weight,
         diet: document.getElementById('diet').value
     };
+    console.log(humanData);
 
-    const errorMessage = document.getElementById('error')
+    const errorMessage = document.getElementById('error');
     if (humanData.name === "") {
         errorMessage.innerHTML = '<p>Please enter a name</p>';
         return;
@@ -223,6 +242,17 @@ function clicked(e) {
     document.querySelector('form').style.display = 'none';
 
     updateUI(dinoArray, humanData);
+}
+
+function unitsChange() {
+    if (document.getElementById('metric').checked) {
+        document.getElementById('metric-form').style.display = 'block';
+        document.getElementById('imperial-form').style.display = 'none';
+    } else {
+        document.getElementById('metric-form').style.display = 'none';
+        document.getElementById('imperial-form').style.display = 'block';
+    }
+
 }
 
 (function () {

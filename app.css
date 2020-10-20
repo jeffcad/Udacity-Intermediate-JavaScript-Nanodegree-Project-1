@@ -125,6 +125,14 @@ p {
     margin: 0 auto;
 }
 
+#metric {
+    margin-right: 15px;
+}
+
+.imperial-form {
+    display: none;
+}
+
 form p {
     margin-bottom: 0.3em;
     font-size: 1.3em;

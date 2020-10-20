@@ -84,8 +84,8 @@ function rawDinoData() {
 /**
  * @description Represents a dinosaur object
  * @constructor
- * @param {Object} dinoData A single dinosaur object containing facts 
- * @param {string} units 'metric' or 'imperial' for height and weight 
+ * @param {Object} dinoData A single dinosaur object containing facts
+ * @param {string} units 'metric' or 'imperial' for height and weight
  */
 function DinoConstructor(dinoData, units) {
     this.species = dinoData.species;
@@ -143,7 +143,7 @@ function DinoConstructor(dinoData, units) {
         }
     };
 
-    // Assign the methods in the protoDino to all objects created 
+    // Assign the methods in the protoDino to all objects created
     // with DinoConstructor
     DinoConstructor.prototype = protoDino;
 })();
@@ -266,7 +266,7 @@ function repeat() {
 
 /**
  * @description Creates the grid for the UI result
- * @param {Array} dinoArray Array of dinosaur objects 
+ * @param {Array} dinoArray Array of dinosaur objects
  * @param {Object} humanData The user's data object
  */
 function updateUI(dinoArray, humanData) {

@@ -200,11 +200,23 @@ function clicked(e) {
         diet: document.getElementById('diet').value
     };
 
+    const errorMessage = document.getElementById('error')
+    if (humanData.name === "") {
+        errorMessage.innerHTML = '<p>Please enter a name</p>';
+        return;
+    } else if (humanData.height < 1) {
+        errorMessage.innerHTML = '<p>Please enter a height more than 0</p>';
+        return;
+    } else if (humanData.weight < 1) {
+        errorMessage.innerHTML = '<p>Please enter a weight more than 0</p>';
+        return;
+    }
+
     document.querySelector('form').style.display = 'none';
 
     updateUI(dinoArray, humanData);
 }
 
-(function listener() {
+(function () {
     document.getElementById('btn').addEventListener('click', clicked);
 })();

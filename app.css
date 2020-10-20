@@ -167,6 +167,10 @@ select {
     cursor: pointer;
 }
 
+.error {
+    color: red;
+}
+
 /* Footer */
 .fine-print {
     display: block;

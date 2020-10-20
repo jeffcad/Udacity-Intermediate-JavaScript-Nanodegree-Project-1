@@ -104,49 +104,46 @@ function DinoConstructor(dinoData, units) {
     }
 }
 
-/**
- * @description IIFE to store the prototype dinosaur with methods, assign the prototype to the constructor
- */
-(function prototype() {
-    const protoDino = {
-        compareWeight: function (humanWeight) {
-            const weightRatio = (this.weight / humanWeight).toFixed(1);
-            // Check for human less than, greater than, or same weight as dino
-            if (weightRatio > 1) {
-                return `${this.species} weighed ${(this.weight / humanWeight).toFixed(1)} times more than you!`;
-            } else if (weightRatio < 1) {
-                return `You weigh ${(humanWeight / this.weight).toFixed(1)} times more than ${this.species}!`;
-            } else {
-                return `You weigh the same as ${this.species}!`;
-            }
-        },
-        compareHeight: function (humanHeight) {
-            const heightRatio = (this.height / humanHeight).toFixed(1);
-            // Check for human less than, greater than, or same weight as dino
-            if (heightRatio > 1) {
-                return `${this.species} was ${(this.height / humanHeight).toFixed(1)} times taller than you!`;
-            } else if (heightRatio < 1) {
-                return `You are ${(humanHeight / this.height).toFixed(1)} times taller than ${this.species}!`;
-            } else {
-                return `You are the same height as ${this.species}!`;
-            }
-        },
-        compareDiet: function (humanDiet) {
-            //'An' omnivore or 'a' herbivore/carnivore
-            let article = humanDiet === 'omnivore' ? 'an' : 'a';
-
-            if (humanDiet === this.diet) {
-                return `You are ${article} ${humanDiet} and ${this.species} was too!`;
-            } else {
-                return `You are ${article} ${humanDiet}, but ${this.species} was a ${this.diet}.`;
-            }
+// Store the prototype dinosaur with methods, assign the prototype to the constructor
+const protoDino = {
+    compareWeight: function (humanWeight) {
+        const weightRatio = (this.weight / humanWeight).toFixed(1);
+        // Check for human less than, greater than, or same weight as dino
+        if (weightRatio > 1) {
+            return `${this.species} weighed ${(this.weight / humanWeight).toFixed(1)} times more than you!`;
         }
-    };
+        if (weightRatio < 1) {
+            return `You weigh ${(humanWeight / this.weight).toFixed(1)} times more than ${this.species}!`;
+        }
+        return `You weigh the same as ${this.species}!`;
 
-    // Assign the methods in the protoDino to all objects created
-    // with DinoConstructor
-    DinoConstructor.prototype = protoDino;
-})();
+    },
+    compareHeight: function (humanHeight) {
+        const heightRatio = (this.height / humanHeight).toFixed(1);
+        // Check for human less than, greater than, or same weight as dino
+        if (heightRatio > 1) {
+            return `${this.species} was ${(this.height / humanHeight).toFixed(1)} times taller than you!`;
+        }
+        if (heightRatio < 1) {
+            return `You are ${(humanHeight / this.height).toFixed(1)} times taller than ${this.species}!`;
+        }
+        return `You are the same height as ${this.species}!`;
+    },
+    compareDiet: function (humanDiet) {
+        //'An' omnivore or 'a' herbivore/carnivore
+        const article = humanDiet === 'omnivore' ? 'an' : 'a';
+
+        if (humanDiet === this.diet) {
+            return `You are ${article} ${humanDiet} and ${this.species} was too!`;
+        } else {
+            return `You are ${article} ${humanDiet}, but ${this.species} was a ${this.diet}.`;
+        }
+    }
+};
+
+// Assign the methods in the protoDino to all objects created
+// with DinoConstructor
+DinoConstructor.prototype = protoDino;
 
 /**
  * @description Creates the dinosaur object array by calling constructor, inserts a human placeholder for proper iteration later
@@ -179,7 +176,7 @@ function createDinoElement(dinoData, humanData) {
     // Project requirement is that pigeon should always return the same fact,
     // so we rig the random number for pigeon
     // Dinosaurs each return one of 6 facts randomly chosen here
-    let randomNumber = dinoData.species === 'Pigeon' ? 2 : Math.round(Math.random() * 5);
+    const randomNumber = dinoData.species === 'Pigeon' ? 2 : Math.round(Math.random() * 5);
 
     switch (randomNumber) {
         case 0:

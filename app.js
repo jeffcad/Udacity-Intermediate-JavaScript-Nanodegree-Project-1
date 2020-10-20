@@ -170,7 +170,7 @@ function createDinoElement(dinoData, humanData) {
 
     const newDiv = document.createElement('div');
     newDiv.className = 'grid-item';
-    newDiv.innerHTML = `<h3>${dinoData.species}</h3><img src="images/${dinoData.species}.png" alt="image of ${dinoData.species}"><p>${fact}</p>`;
+    newDiv.innerHTML = `<h3>${dinoData.species}</h3><img src="images/${(dinoData.species.toLowerCase())}.png" alt="image of ${dinoData.species}"><p>${fact}</p>`;
 
     return newDiv;
 }
